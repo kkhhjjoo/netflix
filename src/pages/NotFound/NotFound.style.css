@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  height: 100dvh;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+span {
+  width: 1px;
+  height: 20px;
+  background: #fff;
+}
+
+p {
+  margin-left: 10px;
+}
