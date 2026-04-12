@@ -47,14 +47,11 @@ const PopularMoviesSlide = () => {
       <ToastContainer />
       <h3>Popular Movies</h3>
       <Carousel
-
         infinite={true}
-        centerMode={true}
         itemClass='movie-slider p-1'
         containerClass='carousel-container'
         responsive={responsive}
-
-        >
+      >
         {data.results.map((movie, index) => (
           <MovieCard key={index} movie={movie} genreMap={genreMap} />
         ))}

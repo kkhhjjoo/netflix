@@ -27,3 +27,9 @@
 .text-white > *{
   z-index: 2;
 }
+
+@media (max-width:768px) {
+  .text-white {
+    width: 100%;
+  }
+}
