@@ -1,5 +1,7 @@
 import Banner from './components/Banner/Banner'
 import PopularMovieSlide from './components/PopularMovieSlide/PopularMovieSlide'
+import TopRatingMovieSlide from './components/TopRatingMovieSlide/TopRatingMovieSlide'
+import UpcomingMovieSlide from './components/UpcomingMovieSlide/UpcomingMovieSlide'
 
 
 //1. 배너 => popular영화를 들고와서 첫번째 아이템을 보여주자
@@ -11,6 +13,8 @@ const Home = () => {
     <div>
       <Banner />
       <PopularMovieSlide />
+      <TopRatingMovieSlide />
+      <UpcomingMovieSlide />
     </div>
   )
 }
