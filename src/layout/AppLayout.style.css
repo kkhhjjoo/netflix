@@ -20,6 +20,13 @@ header {
 .nav-item {
   color: #fff;
 }
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .form {
   display: flex;
   justify-content: center;
@@ -48,4 +55,56 @@ header {
 .btn:hover {
   background: red;
   color: #fff;
+}
+
+/* 햄버거 버튼 - 모바일에서만 표시 */
+.hamburger-btn {
+  display: none;
+  background: transparent;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 4px 6px;
+  line-height: 1;
+}
+
+/* 모바일 드롭다운 메뉴 */
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  background: #101010;
+  padding: 10px 20px;
+  gap: 14px;
+}
+
+.mobile-menu a {
+  color: #fff;
+  font-size: 16px;
+  padding: 6px 0;
+  border-bottom: 1px solid #333;
+}
+
+.mobile-menu a:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .nav {
+    display: none;
+  }
+
+  .hamburger-btn {
+    display: block;
+  }
+
+  .mobile-menu {
+    display: flex;
+  }
+
+  .input {
+    font-size: 14px;
+    width: 120px;
+  }
 }

@@ -1,12 +1,17 @@
 import { IoIosSearch } from "react-icons/io";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { IoClose } from "react-icons/io5";
 import './AppLayout.style.css';
 import { Link, Outlet } from 'react-router-dom';
+import { useState } from 'react';
 
 const AppLayout = () => {
-  const handleSubmit = (e) => { 
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
   }
-  
+
   return (
     <main className='main'>
       <header>
@@ -14,31 +19,43 @@ const AppLayout = () => {
           <h1>
             <Link to="/">
               <img width={200} src="/logo.png" alt="넷플릭스 로고" />
-            </Link>  
+            </Link>
           </h1>
           <nav className='nav'>
-          <ul className='nav-list'>
-            <Link to="/">
-              <li className='nav-item'>Home</li>
-            </Link>
-            <Link to="/movies">
-              <li className='nav-item'>Movies</li>
-            </Link>
-            <Link to="/tv">
-              <li className='nav-item'>TV</li>
-            </Link>  
-          </ul>
+            <ul className='nav-list'>
+              <Link to="/">
+                <li className='nav-item'>Home</li>
+              </Link>
+              <Link to="/movies">
+                <li className='nav-item'>Movies</li>
+              </Link>
+              <Link to="/tv">
+                <li className='nav-item'>TV</li>
+              </Link>
+            </ul>
           </nav>
         </div>
-        <form className='form' onSubmit={handleSubmit}>
-          <input type="text" className='input' placeholder='Search' />
-          <button
-            className='btn'
-            type="submit"><IoIosSearch /></button>
-        </form>
+        <div className='header-right'>
+          <form className='form' onSubmit={handleSubmit}>
+            <input type="text" className='input' placeholder='Search' />
+            <button className='btn' type="submit"><IoIosSearch /></button>
+          </form>
+          <button className='hamburger-btn' onClick={() => setMenuOpen(prev => !prev)}>
+            {menuOpen ? <IoClose /> : <RxHamburgerMenu />}
+          </button>
+        </div>
       </header>
+
+      {menuOpen && (
+        <div className='mobile-menu'>
+          <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
+          <Link to="/movies" onClick={() => setMenuOpen(false)}>Movies</Link>
+          <Link to="/tv" onClick={() => setMenuOpen(false)}>TV</Link>
+        </div>
+      )}
+
       <Outlet />
-    </main>  
+    </main>
   )
 }
 
