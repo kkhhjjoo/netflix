@@ -1,11 +1,13 @@
-
+import { useMovieGenreQuery } from '../../hooks/useMovieGenre';
 import './MovieCard.style.css';
 
-const API_KEY = import.meta.env.VITE_API_KEY
+const MovieCard = ({ movie }) => {
 
-const MovieCard = ({ movie, genreMap }) => {
+  const { data: genreData } = useMovieGenreQuery();
 
-  const genreNames = movie.genre_ids.map((id) => genreMap[id] ?? "기타");
+  const genreNames = movie.genre_ids.map(
+    (id) => genreData?.find((genre) => genre.id === id)?.name ?? "기타"
+  );
 
   return (
     <div className='movie-card' style={{background: `url(https://media.themoviedb.org/t/p/w600_and_h900_face/${movie.poster_path})`}}>
