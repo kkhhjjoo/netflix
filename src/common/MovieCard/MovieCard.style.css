@@ -92,3 +92,10 @@
   background: transparent;
   color: #fff;
 }
+
+@media (max-width: 480px) {
+  .movie-card:hover {
+  transform: scale(1.0) translateZ(0);
+  z-index: 2;
+}
+}
