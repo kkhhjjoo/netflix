@@ -47,6 +47,7 @@
   align-items: center;
   padding: 4px;
   border-radius: 50%;  background: yellow;
+  color: #000;
 }
 
 .adult {

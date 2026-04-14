@@ -2,14 +2,20 @@ import { IoIosSearch } from "react-icons/io";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoClose } from "react-icons/io5";
 import './AppLayout.style.css';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 const AppLayout = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [keyword, setKeyword] = useState('');
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate()
+
+  const searchByKeyword = (e) => { 
     e.preventDefault();
+    //url을 바꿔주기
+    navigate(`/movies?q=${keyword}`);
+    setKeyword('');
   }
 
   return (
@@ -36,8 +42,8 @@ const AppLayout = () => {
           </nav>
         </div>
         <div className='header-right'>
-          <form className='form' onSubmit={handleSubmit}>
-            <input type="text" className='input' placeholder='Search' />
+          <form className='form' onSubmit={searchByKeyword}>
+            <input type="text" className='input' placeholder='Search' value={keyword} onChange={(e) => setKeyword(e.target.value)} />
             <button className='btn' type="submit"><IoIosSearch /></button>
           </form>
           <button className='hamburger-btn' onClick={() => setMenuOpen(prev => !prev)}>
