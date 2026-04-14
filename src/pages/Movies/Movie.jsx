@@ -22,12 +22,19 @@ const Movie = () => {
   const [query, setQuery] = useSearchParams();
   const keyword = query.get('q');
   const [page, setPage] = useState(1);
+  const [prevKeyword, setPrevKeyword] = useState(keyword);
+
+  if (prevKeyword !== keyword) {
+    setPrevKeyword(keyword);
+    setPage(1);
+  }
 
   const { data, isLoading, isError, error } = useSearchMovieQuery({keyword, page});
-  console.log('data', data);
-  const handlePageChange = ({selected}) => { 
+
+  const handlePageChange = ({selected}) => {
     setPage(selected + 1)
   }
+
   useEffect(() => {
     if (isError) {
       toast.error(error?.message || '오류가 발생했습니다.');
@@ -51,13 +58,24 @@ const Movie = () => {
       </>
     );
   }
+  const isEmpty = data?.results.length === 0;
+
   return (
-    <div className='container'>
+    <div className={`container ${isEmpty ? 'no-result-container' : ''}`}>
       <div className='content-row'>
         <div className='left'>필터</div>
-        <div className='right'>{data?.results.map((movie, index) => <div className='col' key={index}>
-          <MovieCard movie={movie} />
-        </div>)}</div>
+        <div className='right'>
+          {data?.results.length === 0
+            ? <div className='no-result'>
+                <p>"{keyword}"에 대한 검색 결과가 없습니다.</p>
+              </div>
+            : data?.results.map((movie, index) => (
+                <div className='col' key={index}>
+                  <MovieCard movie={movie} />
+                </div>
+              ))
+          }
+        </div>
       </div>
       <ReactPaginate
         previousLabel="Previous"

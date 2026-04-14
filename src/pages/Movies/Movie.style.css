@@ -17,3 +17,15 @@
   align-content: start;
 }
 
+.no-result {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding-top: 60px;
+  font-size: 18px;
+  color: #fff;
+}
+
+.no-result-container {
+  padding-top: 80px !important;
+}
+
