@@ -105,6 +105,27 @@ header {
 
   .input {
     font-size: 14px;
-    width: 120px;
+    width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    padding-right: 8px;
+  }
+
+  .input {
+    width: 60px;
+    font-size: 12px;
+  }
+
+  .btn,
+  .hamburger-btn {
+    font-size: 16px;
+    padding: 3px 5px;
+  }
+
+  .header-right {
+    gap: 6px;
   }
 }
