@@ -29,3 +29,19 @@
   padding-top: 80px !important;
 }
 
+
+
+@media (max-width: 480px) {
+  .container {
+    padding: 3500px 12px 40px !important;
+  }
+  .content-row {
+    flex-direction: column;
+  }
+  .left {
+    flex: none;
+  }
+  .right {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
