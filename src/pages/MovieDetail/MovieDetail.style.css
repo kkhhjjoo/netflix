@@ -405,18 +405,24 @@
 }
 
 .review-author {
+  width: 100%;
   font-size: 15px;
   font-weight: 700;
   color: #fff;
+  background: transparent;
 }
 
 .review-rating {
+  width: 100%;
   font-size: 13px;
   color: #f5c518;
+  background: transparent;
 }
 
 .review-date {
+  width: 100%;
   font-size: 12px;
+  background: transparent;
   color: #888;
 }
 
