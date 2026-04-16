@@ -249,7 +249,7 @@ const MovieDetail = () => {
               <h3 className='section-title'>제작사</h3>
               <div className='companies'>
                 {movie.production_companies.slice(0, 5).map(c => (
-                  <span key={c.id} className='company-badge'>{c.name}</span>
+                  <span key={c.id} className='company-badge'>{stripLeadingPipe(c.name)}</span>
                 ))}
               </div>
             </div>

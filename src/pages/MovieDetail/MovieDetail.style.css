@@ -262,21 +262,23 @@
 /* ── 제작사 ── */
 .companies {
   display: flex;
+  
   flex-wrap: wrap;
   gap: 8px;
 }
 
 .company-badge {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #ccc;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 80px;
+  flex: 1 0 0;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ccc;
   font-size: 13px;
   padding: 4px 12px;
   border-radius: 6px;
+  white-space: nowrap;
 }
 
 /* ── 예고편 버튼 ── */
