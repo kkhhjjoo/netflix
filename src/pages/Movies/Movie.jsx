@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './Movie.style.css'
 import { useSearchMovieQuery } from '../../hooks/useSearchMovie'
+import { useMovieGenreQuery } from '../../hooks/useMovieGenre'
 import { useSearchParams } from 'react-router-dom';
 import { ClipLoader } from "react-spinners";
 import { ToastContainer, toast } from 'react-toastify';
@@ -23,16 +24,29 @@ const Movie = () => {
   const keyword = query.get('q');
   const [page, setPage] = useState(1);
   const [prevKeyword, setPrevKeyword] = useState(keyword);
+  const [selectedGenre, setSelectedGenre] = useState(null);
 
   if (prevKeyword !== keyword) {
     setPrevKeyword(keyword);
     setPage(1);
+    setSelectedGenre(null);
   }
 
-  const { data, isLoading, isError, error } = useSearchMovieQuery({keyword, page});
+  const { data, isLoading, isError, error } = useSearchMovieQuery({keyword, page, genreId: selectedGenre});
+  const { data: genres } = useMovieGenreQuery();
+
+  // keyword 검색 시 클라이언트 사이드 장르 필터링
+  const filteredResults = keyword && selectedGenre
+    ? data?.results.filter(movie => movie.genre_ids?.includes(selectedGenre))
+    : data?.results;
 
   const handlePageChange = ({selected}) => {
     setPage(selected + 1)
+  }
+
+  const handleGenreClick = (genreId) => {
+    setSelectedGenre(prev => prev === genreId ? null : genreId);
+    setPage(1);
   }
 
   useEffect(() => {
@@ -58,18 +72,43 @@ const Movie = () => {
       </>
     );
   }
-  const isEmpty = data?.results.length === 0;
+  const isEmpty = filteredResults?.length === 0;
 
   return (
     <div className={`container ${isEmpty ? 'no-result-container' : ''}`}>
       <div className='content-row'>
-        <div className='left'>필터</div>
+        <div className='left'>
+          <div className='filter-box'>
+            <h4 className='filter-title'>장르</h4>
+            <ul className='genre-list'>
+              <li
+                className={`genre-item ${selectedGenre === null ? 'active' : ''}`}
+                onClick={() => { setSelectedGenre(null); setPage(1); }}
+              >
+                전체
+              </li>
+              {genres?.map(genre => (
+                <li
+                  key={genre.id}
+                  className={`genre-item ${selectedGenre === genre.id ? 'active' : ''}`}
+                  onClick={() => handleGenreClick(genre.id)}
+                >
+                  {genre.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
         <div className='right'>
-          {data?.results.length === 0
+          {isEmpty
             ? <div className='no-result'>
-                <p>"{keyword}"에 대한 검색 결과가 없습니다.</p>
+                <p>
+                  {keyword
+                    ? `"${keyword}"에 대한 검색 결과가 없습니다.`
+                    : '해당 장르의 영화가 없습니다.'}
+                </p>
               </div>
-            : data?.results.map((movie, index) => (
+            : filteredResults?.map((movie, index) => (
                 <div className='col' key={index}>
                   <MovieCard movie={movie} />
                 </div>
@@ -77,26 +116,28 @@ const Movie = () => {
           }
         </div>
       </div>
-      <ReactPaginate
-        previousLabel="Previous"
-        nextLabel="Next"
-        pageClassName="page-item"
-        pageLinkClassName="page-link"
-        previousClassName="page-item"
-        previousLinkClassName="page-link"
-        nextClassName="page-item"
-        nextLinkClassName="page-link"
-        breakLabel="..."
-        breakClassName="page-item"
-        breakLinkClassName="page-link"
-        pageCount={data?.total_pages} //전체페이지
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        onPageChange={handlePageChange}
-        containerClassName="pagination"
-        activeClassName="active"
-        forcePage={page - 1}
-      />
+      {!isEmpty && (
+        <ReactPaginate
+          previousLabel="Previous"
+          nextLabel="Next"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakLabel="..."
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          pageCount={data?.total_pages}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName="pagination"
+          activeClassName="active"
+          forcePage={page - 1}
+        />
+      )}
     </div>
   )
 }

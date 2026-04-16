@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import { useMovieGenreQuery } from '../../hooks/useMovieGenre';
 import './MovieCard.style.css';
 
 const MovieCard = ({ movie }) => {
+  const navigate = useNavigate();
 
   const { data: genreData } = useMovieGenreQuery();
 
@@ -10,7 +12,11 @@ const MovieCard = ({ movie }) => {
   );
 
   return (
-    <div className='movie-card' style={{background: `url(https://media.themoviedb.org/t/p/w600_and_h900_face/${movie.poster_path})`}}>
+    <div
+      className='movie-card'
+      style={{background: `url(https://media.themoviedb.org/t/p/w600_and_h900_face/${movie.poster_path})`}}
+      onClick={() => navigate(`/movies/${movie.id}`)}
+    >
       <div className='overlay'>
         <h1>{movie.title}</h1>
         <div className='red-group'>

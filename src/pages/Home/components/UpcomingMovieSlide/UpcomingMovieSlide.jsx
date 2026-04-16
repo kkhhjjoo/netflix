@@ -18,9 +18,7 @@ const UpcomingMovieSlide = () => {
     }
   }, [isError, error]);
 
-  if (isLoading) {
-    return <h1>Loading...</h1>
-  }
+  
   if (isError) {
     return null;
   }

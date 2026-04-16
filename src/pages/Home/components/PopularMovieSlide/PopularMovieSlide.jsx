@@ -11,9 +11,7 @@ import MovieSlider from '../../../../common/MovieSlider/MovieSlider';
 const PopularMoviesSlide = () => {
   const { data, isLoading, isError, error } = usePopularMoviesQuery();
 
-  if (isLoading) {
-    return <h1>Loading...</h1>
-  }
+  
   if (isError) {
     toast.error(error.message);
     return null;

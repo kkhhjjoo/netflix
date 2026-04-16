@@ -10,9 +10,7 @@ import MovieSlider from '../../../../common/MovieSlider/MovieSlider';
 const TopRatingMovieSlide = () => {
   const { data, isLoading, isError, error } = useTopRatingMoviesQuery();
 
-  if (isLoading) {
-    return <h1>Loading...</h1>
-  }
+  
   if (isError) {
     toast.error(error.message);
     return null;

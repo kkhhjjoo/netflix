@@ -17,6 +17,7 @@ const fetchTopRatingMovies = async () => {
 export const useTopRatingMoviesQuery = () => {
   return useQuery({
     queryKey: ['movie-top-rating'],
+    suspense: true,
     queryFn: fetchTopRatingMovies,
   });
 };

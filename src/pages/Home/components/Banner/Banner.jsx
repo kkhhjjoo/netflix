@@ -6,9 +6,7 @@ import './Banner.style.css';
 const Banner = () => {
   const { data, isLoading, isError, error } = usePopularMoviesQuery();
   console.log('ddd', data);
-  if (isLoading) { 
-    return <h1>Loading...</h1>
-  }
+  
   if (isError) { 
     toast.error(error.message);
   }
