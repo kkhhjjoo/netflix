@@ -24,6 +24,10 @@
   padding: 16px;
 }
 
+.sort-box {
+  margin-bottom: 12px;
+}
+
 .filter-title {
   color: #fff;
   font-size: 16px;

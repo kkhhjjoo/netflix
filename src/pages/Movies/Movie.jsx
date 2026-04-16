@@ -25,6 +25,16 @@ const Movie = () => {
   const [page, setPage] = useState(1);
   const [prevKeyword, setPrevKeyword] = useState(keyword);
   const [selectedGenre, setSelectedGenre] = useState(null);
+  const [sortBy, setSortBy] = useState('popularity.desc');
+
+  const SORT_OPTIONS = [
+    { value: 'popularity.desc', label: '인기 높은순' },
+    { value: 'popularity.asc',  label: '인기 낮은순' },
+    { value: 'vote_average.desc', label: '평점 높은순' },
+    { value: 'vote_average.asc',  label: '평점 낮은순' },
+    { value: 'release_date.desc', label: '최신순' },
+    { value: 'release_date.asc',  label: '오래된순' },
+  ];
 
   if (prevKeyword !== keyword) {
     setPrevKeyword(keyword);
@@ -32,7 +42,7 @@ const Movie = () => {
     setSelectedGenre(null);
   }
 
-  const { data, isLoading, isError, error } = useSearchMovieQuery({keyword, page, genreId: selectedGenre});
+  const { data, isLoading, isError, error } = useSearchMovieQuery({keyword, page, genreId: selectedGenre, sortBy});
   const { data: genres } = useMovieGenreQuery();
 
   // keyword 검색 시 클라이언트 사이드 장르 필터링
@@ -78,6 +88,24 @@ const Movie = () => {
     <div className={`container ${isEmpty ? 'no-result-container' : ''}`}>
       <div className='content-row'>
         <div className='left'>
+          {/* 정렬 */}
+          {!keyword && (
+            <div className='filter-box sort-box'>
+              <h4 className='filter-title'>정렬</h4>
+              <ul className='genre-list'>
+                {SORT_OPTIONS.map(opt => (
+                  <li
+                    key={opt.value}
+                    className={`genre-item ${sortBy === opt.value ? 'active' : ''}`}
+                    onClick={() => { setSortBy(opt.value); setPage(1); }}
+                  >
+                    {opt.label}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           <div className='filter-box'>
             <h4 className='filter-title'>장르</h4>
             <ul className='genre-list'>

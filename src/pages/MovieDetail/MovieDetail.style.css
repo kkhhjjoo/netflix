@@ -279,6 +279,171 @@
   border-radius: 6px;
 }
 
+/* ── 예고편 버튼 ── */
+.trailer-btn {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  padding: 12px 0;
+  background: #e50914;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.trailer-btn:hover {
+  background: #c4000f;
+}
+
+/* ── 예고편 모달 ── */
+.trailer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trailer-modal {
+  position: relative;
+  width: 90%;
+  max-width: 900px;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.trailer-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  z-index: 10;
+  background: rgba(0,0,0,0.6);
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trailer-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ── 리뷰 ── */
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.review-empty {
+  color: #888;
+  font-size: 14px;
+  margin: 0;
+}
+
+.review-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.review-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.review-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.review-avatar-placeholder {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #e50914;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.review-author-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.review-author {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.review-rating {
+  font-size: 13px;
+  color: #f5c518;
+}
+
+.review-date {
+  font-size: 12px;
+  color: #888;
+}
+
+.review-content {
+  font-size: 14px;
+  line-height: 1.75;
+  color: #ccc;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.review-toggle {
+  align-self: flex-start;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #aaa;
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.review-toggle:hover {
+  border-color: #e50914;
+  color: #fff;
+}
+
 /* ── 반응형 ── */
 @media (max-width: 768px) {
   .detail-content {
