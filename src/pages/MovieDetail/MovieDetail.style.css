@@ -87,6 +87,7 @@
 .detail-year {
   font-weight: 400;
   color: #aaa;
+  background: transparent;
 }
 
 .detail-tagline {
