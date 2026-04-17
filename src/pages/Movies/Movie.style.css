@@ -96,7 +96,11 @@
   .left {
     flex: none;
     width: 100%;
-    position: static;
+    position: sticky;
+    top: 60px;
+    z-index: 10;
+    background: #141414;
+    padding-bottom: 8px;
   }
 
   .genre-list {
