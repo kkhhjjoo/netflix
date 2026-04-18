@@ -1,4 +1,35 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+
+/** 키워드 검색(/search/movie)은 sort_by 미지원 → 동일 기준으로 클라이언트 정렬 */
+const sortMoviesBy = (movies, sortBy) => {
+  if (!movies?.length) return movies;
+  const sorted = [...movies];
+  const n = (v) => (typeof v === 'number' && !Number.isNaN(v) ? v : 0);
+  const releaseTime = (m) => {
+    if (!m.release_date) return null;
+    const t = Date.parse(m.release_date);
+    return Number.isNaN(t) ? null : t;
+  };
+  sorted.sort((a, b) => {
+    switch (sortBy) {
+      case 'popularity.desc':
+        return n(b.popularity) - n(a.popularity);
+      case 'popularity.asc':
+        return n(a.popularity) - n(b.popularity);
+      case 'vote_average.desc':
+        return n(b.vote_average) - n(a.vote_average);
+      case 'vote_average.asc':
+        return n(a.vote_average) - n(b.vote_average);
+      case 'release_date.desc':
+        return (releaseTime(b) ?? -Infinity) - (releaseTime(a) ?? -Infinity);
+      case 'release_date.asc':
+        return (releaseTime(a) ?? Infinity) - (releaseTime(b) ?? Infinity);
+      default:
+        return 0;
+    }
+  });
+  return sorted;
+};
 import './Movie.style.css'
 import { useSearchMovieQuery } from '../../hooks/useSearchMovie'
 import { useMovieGenreQuery } from '../../hooks/useMovieGenre'
@@ -46,9 +77,14 @@ const Movie = () => {
   const { data: genres } = useMovieGenreQuery();
 
   // keyword 검색 시 클라이언트 사이드 장르 필터링
-  const filteredResults = keyword && selectedGenre
-    ? data?.results.filter(movie => movie.genre_ids?.includes(selectedGenre))
-    : data?.results;
+  const filteredResults = useMemo(() => {
+    const base =
+      keyword && selectedGenre
+        ? data?.results?.filter((movie) => movie.genre_ids?.includes(selectedGenre))
+        : data?.results;
+    if (!base) return base;
+    return keyword ? sortMoviesBy(base, sortBy) : base;
+  }, [keyword, selectedGenre, data?.results, sortBy]);
 
   const handlePageChange = ({selected}) => {
     setPage(selected + 1)
@@ -88,23 +124,24 @@ const Movie = () => {
     <div className={`container ${isEmpty ? 'no-result-container' : ''}`}>
       <div className='content-row'>
         <div className='left'>
-          {/* 정렬 */}
-          {!keyword && (
-            <div className='filter-box sort-box'>
-              <h4 className='filter-title'>정렬</h4>
-              <ul className='genre-list'>
-                {SORT_OPTIONS.map(opt => (
-                  <li
-                    key={opt.value}
-                    className={`genre-item ${sortBy === opt.value ? 'active' : ''}`}
-                    onClick={() => { setSortBy(opt.value); setPage(1); }}
-                  >
-                    {opt.label}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          {/* 정렬 (검색어가 있으면 현재 페이지 결과 기준 클라이언트 정렬) */}
+          <div className='filter-box sort-box'>
+            <h4 className='filter-title'>정렬</h4>
+            <ul className='genre-list'>
+              {SORT_OPTIONS.map((opt) => (
+                <li
+                  key={opt.value}
+                  className={`genre-item ${sortBy === opt.value ? 'active' : ''}`}
+                  onClick={() => {
+                    setSortBy(opt.value);
+                    setPage(1);
+                  }}
+                >
+                  {opt.label}
+                </li>
+              ))}
+            </ul>
+          </div>
 
           <div className='filter-box'>
             <h4 className='filter-title'>장르</h4>
